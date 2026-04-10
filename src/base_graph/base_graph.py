@@ -1,17 +1,36 @@
 from typing import List
-from .base_instance import Condition
+from base_instance import Condition
 
 
 class BaseGraph():
     def __init__(self):
         super().__init__()
-        self.modules = {}
 
     def __call__(self, *args, **kwargs):
         return self.forward(*args, **kwargs)
 
     def forward(self, *args, **kwargs):
         raise NotImplementedError
+
+
+class FuncGraph(BaseGraph):
+    def __init__(self, func):
+        super().__init__()
+        self.module = func
+
+    def forward(self, *args, **kwargs):
+        return self.module(*args, **kwargs)
+
+
+class SeriesListGraph(BaseGraph):
+    def __init__(self, funcs: List[FuncGraph]):
+        super().__init__()
+        self.modules = funcs
+
+    def forward(self, data: any):
+        for func in self.modules:
+            data = func(data)
+        return data
 
 
 class ConditionGraph(BaseGraph):
@@ -26,14 +45,3 @@ class ConditionGraph(BaseGraph):
             return self.func_true(*data)
         else:
             return self.func_false(*data)
-
-
-class SeriesListGraph(BaseGraph):
-    def __init__(self, funcs: List[BaseGraph]):
-        super().__init__()
-        self.funcs = funcs
-
-    def forward(self, *data: any):
-        for func in self.funcs:
-            data = func(*data)
-        return data
