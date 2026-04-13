@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union, Any
 from self_graph.base_instance import Condition
 
 
@@ -23,7 +23,7 @@ class FuncGraph(BaseGraph):
 
 
 class SeriesListGraph(BaseGraph):
-    def __init__(self, funcs: List[FuncGraph]):
+    def __init__(self, funcs: List[Union[FuncGraph, Any]]):
         super().__init__()
         self.modules = funcs
 
