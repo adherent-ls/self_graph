@@ -1,7 +1,7 @@
 from typing import Union, Dict, Tuple, List
 
-from base_instance import BaseInstance
-from local_types.base_param_type import Value
+from self_graph.base_instance import BaseInstance
+from self_graph.local_types.base_param_type import Value
 
 
 class NameConvert(BaseInstance):

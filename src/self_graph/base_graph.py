@@ -1,5 +1,5 @@
 from typing import List
-from base_instance import Condition
+from self_graph.base_instance import Condition
 
 
 class BaseGraph():

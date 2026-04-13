@@ -1,5 +1,5 @@
 [project]
-name = "base_graph"
+name = "self_graph"
 version = "0.1.0"
 
 [build-system]

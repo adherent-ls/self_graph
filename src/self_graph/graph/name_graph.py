@@ -1,8 +1,8 @@
 from typing import List, Tuple
 
-from base_graph import FuncGraph, SeriesListGraph
-from tools.name_tool import NameConvert
-from local_types.name_param_types import input_types, output_types, graph_types
+from self_graph.base_graph import FuncGraph, SeriesListGraph
+from self_graph.tools.name_tool import NameConvert
+from self_graph.local_types.name_param_types import input_types, output_types, graph_types
 
 
 class NameGraph(FuncGraph):

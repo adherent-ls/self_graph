@@ -2,4 +2,4 @@
 __pycache__/
 */__pycache__/*
 *.py[cod]
-/src/base_graph.egg-info/
+/src/self_graph.egg-info/
