@@ -34,14 +34,15 @@ class SeriesListGraph(BaseGraph):
 
 
 class ConditionGraph(BaseGraph):
-    def __init__(self, cond: Condition, func_true, func_false):
+    def __init__(self, cond: Union[Condition, Any], func_true, func_false):
         super().__init__()
         self.cond = cond
         self.func_true = func_true
         self.func_false = func_false
 
     def forward(self, *data):
-        if self.cond():
+        cond = self.cond() if callable(self.cond) else self.cond
+        if cond:
             return self.func_true(*data)
         else:
             return self.func_false(*data)
