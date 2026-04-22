@@ -14,13 +14,13 @@ class BaseGraph(Generic[T]):
 
     def add(self, node: T):
         self.nodes.append(node)
-        self.queue.append(node)
         return True
 
     def __call__(self, *data: List):
         return self.forward(*data)
 
     def forward(self, *data: List):
+        self.queue.extend(self.nodes)
         while self.queue:
             node = self.queue.popleft()
             data = node(data)
