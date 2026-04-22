@@ -1,48 +1,53 @@
-from typing import List, Union, Any
-from self_graph.base_instance import Condition
+from collections import deque
+from typing import List, Generic, TypeVar
+
+from self_graph.base_node import BaseNode, FuncNode
+
+T = TypeVar("T", bound=BaseNode)
 
 
-class BaseGraph():
+class BaseGraph(Generic[T]):
     def __init__(self):
         super().__init__()
+        self.nodes: List[T] = []
+        self.queue = deque()
 
-    def __call__(self, *args, **kwargs):
-        return self.forward(*args, **kwargs)
+    def add(self, node: T):
+        self.nodes.append(node)
+        self.queue.append(node)
+        return True
 
-    def forward(self, *args, **kwargs):
-        raise NotImplementedError
+    def __call__(self, *data: List):
+        return self.forward(*data)
 
-
-class FuncGraph(BaseGraph):
-    def __init__(self, func):
-        super().__init__()
-        self.module = func
-
-    def forward(self, *args, **kwargs):
-        return self.module(*args, **kwargs)
-
-
-class SeriesListGraph(BaseGraph):
-    def __init__(self, funcs: List[Union[FuncGraph, Any]]):
-        super().__init__()
-        self.modules = funcs
-
-    def forward(self, data: any):
-        for func in self.modules:
-            data = func(data)
+    def forward(self, *data: List):
+        while self.queue:
+            node = self.queue.popleft()
+            data = node(data)
         return data
 
 
-class ConditionGraph(BaseGraph):
-    def __init__(self, cond: Union[Condition, Any], func_true, func_false):
+class SeriesListGraph(BaseGraph[FuncNode]):
+    def __init__(self, funcs: List):
         super().__init__()
-        self.cond = cond
-        self.func_true = func_true
-        self.func_false = func_false
 
-    def forward(self, *data):
-        cond = self.cond() if callable(self.cond) else self.cond
-        if cond:
-            return self.func_true(*data)
-        else:
-            return self.func_false(*data)
+        for func in funcs:
+            self.add(FuncNode(func))
+
+
+def main():
+    def add(a, b):
+        return a + b
+
+    def x10(data):
+        return data * 10, 10
+
+    g = SeriesListGraph([
+        add, x10, add
+    ])
+    c = g(5, 8)
+    print(c)
+
+
+if __name__ == '__main__':
+    main()

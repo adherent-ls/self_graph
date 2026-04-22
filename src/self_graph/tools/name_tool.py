@@ -8,7 +8,7 @@ class NameConvert(BaseInstance):
     @staticmethod
     def dict_to_list(data: Dict, names: Union[Tuple, List, str] = None):
         if names is None:
-            results = list(data.values())
+            results = {}
         elif isinstance(names, str):
             results = data[names]
         elif isinstance(names, Value):
