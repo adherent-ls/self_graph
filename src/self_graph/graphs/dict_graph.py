@@ -1,8 +1,7 @@
 from collections import deque
-from typing import List, Tuple, Generic, TypeVar, Dict
+from typing import List, Tuple, TypeVar, Dict, Callable, Any
 
 from self_graph.base_graph import BaseGraph
-from self_graph.local_types.name_param_types import input_types, output_types, graph_types
 from self_graph.nodes.dict_node import NameWithMemoryNode, NameNode
 from self_graph.tools.name_tool import NameConvert
 
@@ -44,9 +43,9 @@ class DictGraph(BaseGraph[D]):
 class SeriesWithNameGraph(DictGraph[NameWithMemoryNode]):
     def __init__(
             self,
-            funcs: List[Tuple[graph_types, input_types, output_types]],
-            ini: input_types,
-            oui: output_types = None,
+            funcs: List[Tuple[Callable, Any, Any]],
+            ini: Any,
+            oui: Any = None,
     ):
         super().__init__()
         self.ini = ini

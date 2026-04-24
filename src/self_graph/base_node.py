@@ -5,10 +5,10 @@ class BaseNode():
     def __init__(self):
         super().__init__()
 
-    def __call__(self, data):
-        return self.forward(data)
+    def __call__(self, *args, **kwargs):
+        return self.forward(*args, **kwargs)
 
-    def forward(self, data):
+    def forward(self, *args, **kwargs):
         raise NotImplementedError()
 
 
