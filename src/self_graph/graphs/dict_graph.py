@@ -2,6 +2,7 @@ from collections import deque
 from typing import List, Tuple, TypeVar, Dict, Callable, Any
 
 from self_graph.base_graph import BaseGraph
+from self_graph.local_types.base_param_type import Value
 from self_graph.nodes.dict_node import NameWithMemoryNode, NameNode
 from self_graph.tools.name_tool import NameConvert
 
@@ -20,7 +21,9 @@ class DictGraph(BaseGraph[D]):
 
     def check(self, data, names):
         for name in names:
-            if name not in data:
+            if isinstance(names, Value):
+                continue
+            elif name not in data:
                 return False
         return True
 
@@ -32,9 +35,9 @@ class DictGraph(BaseGraph[D]):
         while self.queue:
             node = self.queue.popleft()
             # 依赖未满足 → 跳过（重新排队）
-            if not self.check(data, node.ini):
-                self.queue.append(node)
-                continue
+            # if not self.check(data, node.ini):
+            #     self.queue.append(node)
+            #     continue
             # 执行
             data = node(data)
         return data
