@@ -31,14 +31,16 @@ class DictGraph(BaseGraph[D]):
         return self.forward(data)
 
     def forward(self, data: Dict):
-        self.queue.extend(self.nodes)
-        while self.queue:
-            node = self.queue.popleft()
-            # 依赖未满足 → 跳过（重新排队）
-            # if not self.check(data, node.ini):
-            #     self.queue.append(node)
-            #     continue
-            # 执行
+        # self.queue.extend(self.nodes)
+        # while self.queue:
+        #     node = self.queue.popleft()
+        #     # 依赖未满足 → 跳过（重新排队）
+        #     # if not self.check(data, node.ini):
+        #     #     self.queue.append(node)
+        #     #     continue
+        #     # 执行
+        #     data = node(data)
+        for node in self.nodes:
             data = node(data)
         return data
 
