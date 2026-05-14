@@ -20,9 +20,11 @@ class BaseGraph(Generic[T]):
         return self.forward(*data)
 
     def forward(self, *data: List):
-        self.queue.extend(self.nodes)
-        while self.queue:
-            node = self.queue.popleft()
+        # self.queue.extend(self.nodes)
+        # while self.queue:
+        #     node = self.queue.popleft()
+        #     data = node(data)
+        for node in self.nodes:
             data = node(data)
         return data
 
